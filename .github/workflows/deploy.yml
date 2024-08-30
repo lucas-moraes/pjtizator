@@ -17,16 +17,8 @@ jobs:
       - name: Install Rust Nightly
         run: rustup toolchain install nightly
 
-      - name: install Rust nightly
+      - name: Set Rust nightly
         run: rustup default nightly
-
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
-          profile: minimal
-          override: true
 
       - name: Install Trunk
         run: cargo install trunk
