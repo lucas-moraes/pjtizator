@@ -1,8 +1,6 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
@@ -14,14 +12,12 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v4
 
-      - name: Install Rust Nightly
-        run: rustup toolchain install nightly
-
-      - name: Set Rust nightly
-        run: rustup default nightly
-
-      - name: Install wasm32-unknown-unknown target
-        run: rustup target add wasm32-unknown-unknown
+      - name: Set up Rust (Nightly)
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: wasm32-unknown-unknown
+          override: true
 
       - name: Install Trunk
         run: cargo install trunk
