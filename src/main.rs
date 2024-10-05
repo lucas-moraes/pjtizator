@@ -12,6 +12,7 @@ use web_sys::HtmlInputElement;
 #[component]
 fn App(cx: Scope) -> impl IntoView {
     let (salary, set_salary) = create_signal(cx, String::new());
+    let (deduct, set_deduct) = create_signal(cx, String::new());
     let (vale, set_vale) = create_signal(cx, String::new());
 
     let format_currency = |value: &str| -> String {
@@ -36,6 +37,14 @@ fn App(cx: Scope) -> impl IntoView {
         let formatted_value = format_currency(&input_value);
         input_element.set_value(&formatted_value);
         set_salary(formatted_value);
+    };
+
+    let handle_input_deductions = move |ev: web_sys::Event| {
+        let input_element = ev.target().unwrap().dyn_into::<HtmlInputElement>().unwrap();
+        let input_value = input_element.value();
+        let formatted_value = format_currency(&input_value);
+        input_element.set_value(&formatted_value);
+        set_deduct(formatted_value);
     };
 
     let handle_input_vale = move |ev: web_sys::Event| {
@@ -72,6 +81,17 @@ fn App(cx: Scope) -> impl IntoView {
                                 on:input=handle_input_salary
                             />
                         </div>
+                        <label class="uk-form-label" for="form-stacked-text">"Soma dos descontos na folha"</label>
+                        <div class="uk-margin">
+                            <input
+                                class="uk-input
+                                uk-form-width-medium"
+                                type="text"
+                                placeholder="R$ 0,00"
+                                aria-label="Input"
+                                on:input=handle_input_deductions
+                            />
+                        </div>
                         <label class="uk-form-label" for="form-stacked-text">"Soma do Vale alimentação + Refeição"</label>
                         <div class="uk-margin">
                             <input
@@ -91,7 +111,7 @@ fn App(cx: Scope) -> impl IntoView {
                 <div class="uk-container-expand">
                   <div class="uk-grid-small uk-grid-match" uk-grid>
                     <div class="uk-child-width-1-2@m">
-                        <Clt salary=salary vale=vale/>
+                        <Clt salary=salary vale=vale deduct=deduct/>
                     </div>
                     <div class="uk-child-width-1-2@m">
                         <Pj invoice=salary vale=vale/>
@@ -104,7 +124,7 @@ fn App(cx: Scope) -> impl IntoView {
         </section>
         <footer class="footer-advise">
             <p class="footer-advise-text">
-                "Feito com ❤️ em Rust"
+                "2024 - Feito com ❤️ em Rust versão 1.2.0 "
             </p>
         </footer>
 

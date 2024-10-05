@@ -18,7 +18,12 @@ fn format_currency(value: f64) -> String {
 }
 
 #[component]
-pub fn Clt(cx: Scope, salary: ReadSignal<String>, vale: ReadSignal<String>) -> impl IntoView {
+pub fn Clt(
+    cx: Scope,
+    salary: ReadSignal<String>,
+    vale: ReadSignal<String>,
+    deduct: ReadSignal<String>,
+) -> impl IntoView {
     let calc_inss = move |salary: f64| -> f64 {
         let mut inss = 0.0;
         if salary > 0.0 && salary <= 1412.00 {
@@ -74,11 +79,19 @@ pub fn Clt(cx: Scope, salary: ReadSignal<String>, vale: ReadSignal<String>) -> i
             .trim()
             .parse()
             .unwrap_or(0.0);
+        let deduct_value = deduct
+            .get()
+            .replace("R$ ", "")
+            .replace(".", "")
+            .replace(",", ".")
+            .trim()
+            .parse()
+            .unwrap_or(0.0);
         let inss = calc_inss(salary_value);
         let salary_after_inss = salary_value - inss;
         let irrf = calc_irrf(salary_after_inss);
         let salary_after_irrf = salary_after_inss - irrf;
-        let net = salary_after_irrf + vale_value;
+        let net = salary_after_irrf + vale_value - deduct_value;
         return net;
     };
 
@@ -136,6 +149,9 @@ pub fn Clt(cx: Scope, salary: ReadSignal<String>, vale: ReadSignal<String>) -> i
                         let inss = calc_inss(salary_value);
                         format_currency(calc_irrf(salary_value - inss))
                     })}
+                </li>
+                <li class="uk-text-danger">
+                    {move || format!("Descontos do diversos: {}", format_currency(deduct.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0)))}
                 </li>
                 <li class="uk-text-primary">
                     {move || format!("Salário liquido: {}", format_currency(calc_net_salary()))}
