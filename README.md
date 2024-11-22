@@ -50,14 +50,20 @@
    cargo install trunk
    npm install --global serve
    ```
+3. Rodar localmente:
 
-3. Compile o projeto:
+   ```bash
+   trunk serve --open
+   ```
+
+## Buildar o projeto
+1. Compile o projeto:
 
    ```bash
    trunk build --release
    ```
 
-4. Inicie o servidor:
+2. Inicie o servidor:
 
    ```bash
    serve .

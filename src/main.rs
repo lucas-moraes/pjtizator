@@ -81,7 +81,7 @@ fn App(cx: Scope) -> impl IntoView {
                                 on:input=handle_input_salary
                             />
                         </div>
-                        <label class="uk-form-label" for="form-stacked-text">"Soma dos descontos na folha"</label>
+                        <label class="uk-form-label" for="form-stacked-text">"Soma dos descontos diversos (ex: Plano de saude + VT)"</label>
                         <div class="uk-margin">
                             <input
                                 class="uk-input
@@ -92,7 +92,7 @@ fn App(cx: Scope) -> impl IntoView {
                                 on:input=handle_input_deductions
                             />
                         </div>
-                        <label class="uk-form-label" for="form-stacked-text">"Soma do Vale alimentação + Refeição"</label>
+                        <label class="uk-form-label" for="form-stacked-text">"Soma dos Vales (ex: VA + VR)"</label>
                         <div class="uk-margin">
                             <input
                                 class="uk-input
@@ -114,7 +114,7 @@ fn App(cx: Scope) -> impl IntoView {
                         <Clt salary=salary vale=vale deduct=deduct/>
                     </div>
                     <div class="uk-child-width-1-2@m">
-                        <Pj invoice=salary vale=vale/>
+                        <Pj invoice=salary vale=vale deduct=deduct/>
                     </div>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ fn App(cx: Scope) -> impl IntoView {
         </section>
         <footer class="footer-advise">
             <p class="footer-advise-text">
-                "2024 - Feito com ❤️ em Rust versão 1.2.0 "
+                "2024 - Feito com ❤️ em Rust versão 1.3.0 "
             </p>
         </footer>
 
