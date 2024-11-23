@@ -23,7 +23,7 @@ fn format_currency(value: f64) -> String {
 }
 
 #[component]
-pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, deduct: ReadSignal<String>,) -> impl IntoView {
+pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, deduct_pj: ReadSignal<String>,) -> impl IntoView {
     let minimum_salary = 1412.00;
 
     let calc_anexo_III = move || -> CurrencyCorporate {
@@ -182,7 +182,7 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
     };
 
     view! {cx,
-        <div class="uk-card uk-card-default uk-card-body">
+        <div class="uk-margin-small  uk-padding-small  uk-card uk-card-default uk-card-body">
             <span class="uk-card-title uk-text-secondary">
                 "PJ - Simples nacional"
             </span>
@@ -207,16 +207,14 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
                             {move || format!("INSS sobre pro-labore: {}", format_currency(pro_labore_percentage().inss_pro_labore))}
                         </li>
                         <li class="uk-text-danger">
-                            {move || format!("IRRF sobre pro-labore: {}", format_currency(pro_labore_percentage().irrf_pro_labore))}
+                            {move || format!("Despesas diversas: {}", format_currency(deduct_pj.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0)))}
                         </li>
-                        <li class="uk-text-danger">
-                            {move || format!("Descontos diversos: {}", format_currency(deduct.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0)))}
-                        </li>
+
 
                     </ul>
                         <p class="uk-text-bolder">
                             {move || format!("Lucro líquido: {}", {
-                                let net_profit = calc_anexo_III().billing - calc_anexo_III().tax_payable - pro_labore_percentage().inss_pro_labore - pro_labore_percentage().irrf_pro_labore - deduct.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0);
+                                let net_profit = calc_anexo_III().billing - calc_anexo_III().tax_payable - pro_labore_percentage().inss_pro_labore - pro_labore_percentage().irrf_pro_labore - deduct_pj.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0);
                                 format_currency(net_profit)
                             })}
                         </p>
@@ -242,13 +240,13 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
                             {move || format!("INSS sobre pro-labore: {}", format_currency(pro_labore_minimum().inss_pro_labore))}
                         </li>
                         <li class="uk-text-danger">
-                            {move || format!("Descontos diversos: {}", format_currency(deduct.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0)))}
+                            {move || format!("Despesas diversas: {}", format_currency(deduct_pj.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0)))}
                         </li>
                     </ul>
                     <hr class="uk-divider-small" />
                     <p class="uk-text-bolder">
                         {move || format!("Lucro líquido: {}", {
-                            let net_profit = calc_anexo_V().billing - calc_anexo_V().tax_payable - pro_labore_minimum().inss_pro_labore - deduct.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0);
+                            let net_profit = calc_anexo_V().billing - calc_anexo_V().tax_payable - pro_labore_minimum().inss_pro_labore - deduct_pj.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0);
                                 format_currency(net_profit)
                         })}
                     </p>
