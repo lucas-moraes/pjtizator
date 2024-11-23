@@ -22,7 +22,8 @@ pub fn Clt(
     cx: Scope,
     salary: ReadSignal<String>,
     vale: ReadSignal<String>,
-    deduct: ReadSignal<String>,
+    deduct_clt: ReadSignal<String>,
+    plr: ReadSignal<String>,
 ) -> impl IntoView {
     let calc_inss = move |salary: f64| -> f64 {
         let mut inss = 0.0;
@@ -79,7 +80,15 @@ pub fn Clt(
             .trim()
             .parse()
             .unwrap_or(0.0);
-        let deduct_value = deduct
+        let deduct_value = deduct_clt
+            .get()
+            .replace("R$ ", "")
+            .replace(".", "")
+            .replace(",", ".")
+            .trim()
+            .parse()
+            .unwrap_or(0.0);
+        let plr_value = plr
             .get()
             .replace("R$ ", "")
             .replace(".", "")
@@ -91,7 +100,7 @@ pub fn Clt(
         let salary_after_inss = salary_value - inss;
         let irrf = calc_irrf(salary_after_inss);
         let salary_after_irrf = salary_after_inss - irrf;
-        let net = salary_after_irrf + vale_value - deduct_value;
+        let net = salary_after_irrf + vale_value - deduct_value + (plr_value / 12.0);
         return net;
     };
 
@@ -128,7 +137,7 @@ pub fn Clt(
     };
 
     view! {cx,
-        <div class="uk-card uk-card-default uk-card-body">
+        <div class="uk-marging-small  uk-padding-small  uk-card uk-card-default uk-card-body">
             <span class="uk-card-title uk-text-secondary">
                 "CLT"
             </span>
@@ -151,7 +160,10 @@ pub fn Clt(
                     })}
                 </li>
                 <li class="uk-text-danger">
-                    {move || format!("Descontos do diversos: {}", format_currency(deduct.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0)))}
+                    {move || format!("Descontos do diversos: {}", format_currency(deduct_clt.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0)))}
+                </li>
+                <li class="uk-text-primary">
+                    {move || format!("PLR divido por 12: {}", format_currency(plr.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0) / 12.0))}
                 </li>
                 <li class="uk-text-primary">
                     {move || format!("Salário liquido: {}", format_currency(calc_net_salary()))}
