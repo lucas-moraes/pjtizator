@@ -46,19 +46,33 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
         let billing_monthly = invoice + vale;
         let invoice_12_months = billing_monthly * 12.0;
         let mut tax_payable = 0.0;
+        let effective_tax;
+
+        if invoice_12_months == 0.0 {
+            return CurrencyCorporate {
+                billing: 0.0,
+                tax_payable: 0.0,
+            };
+        }
 
         if invoice_12_months <= 180000.0 {
-            tax_payable = billing_monthly * 0.06
+            effective_tax = (invoice_12_months * 0.06)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 180000.0 && invoice_12_months <= 360000.0 {
-            tax_payable = billing_monthly * 0.112 - 9360.0
+            effective_tax = (invoice_12_months * 0.112-9360.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 360000.0 && invoice_12_months <= 720000.0 {
-            tax_payable = billing_monthly * 0.135 - 17640.0
+            effective_tax = (invoice_12_months * 0.135-17640.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 720000.0 && invoice_12_months <= 1800000.0 {
-            tax_payable = billing_monthly * 0.16 - 35640.0
+            effective_tax = (invoice_12_months * 0.16-35640.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 1800000.0 && invoice_12_months <= 3600000.0 {
-            tax_payable = billing_monthly * 0.21 - 125640.0
+            effective_tax = (invoice_12_months * 0.21-125640.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 3600000.0 {
-            tax_payable = billing_monthly * 0.33 - 648000.0
+            effective_tax = (invoice_12_months * 0.33-648000.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         }
 
         CurrencyCorporate {
@@ -87,19 +101,33 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
         let billing_monthly = invoice + vale;
         let invoice_12_months = billing_monthly * 12.0;
         let mut tax_payable = 0.0;
+        let effective_tax;
+
+        if invoice_12_months == 0.0 {
+            return CurrencyCorporate {
+                billing: 0.0,
+                tax_payable: 0.0,
+            };
+        }
 
         if invoice_12_months <= 180000.0 {
-            tax_payable = billing_monthly * 0.155
+            effective_tax = (invoice_12_months * 0.155)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 180000.0 && invoice_12_months <= 360000.0 {
-            tax_payable = billing_monthly * 0.18 - 4500.0
+            effective_tax = (invoice_12_months * 0.18-4500.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 360000.0 && invoice_12_months <= 720000.0 {
-            tax_payable = billing_monthly * 0.195 - 9900.0
+            effective_tax = (invoice_12_months * 0.195-9900.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 720000.0 && invoice_12_months <= 1800000.0 {
-            tax_payable = billing_monthly * 0.205 - 17100.0
+            effective_tax = (invoice_12_months * 0.205-17100.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 1800000.0 && invoice_12_months <= 3600000.0 {
-            tax_payable = billing_monthly * 0.23 - 62100.0
+            effective_tax = (invoice_12_months * 0.23-62100.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 3600000.0 {
-            tax_payable = billing_monthly * 0.305 - 540000.0
+            effective_tax = (invoice_12_months * 0.305-540000.0)/invoice_12_months;
+            tax_payable = billing_monthly * effective_tax;
         }
 
         CurrencyCorporate {
@@ -205,6 +233,9 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
                         </li>
                         <li class="uk-text-danger">
                             {move || format!("INSS sobre pro-labore: {}", format_currency(pro_labore_percentage().inss_pro_labore))}
+                        </li>
+                        <li class="uk-text-danger">
+                            {move || format!("IRRF sobre pro-labore: {}", format_currency(pro_labore_percentage().irrf_pro_labore))}
                         </li>
                         <li class="uk-text-danger">
                             {move || format!("Despesas diversas: {}", format_currency(deduct_pj.get().replace("R$ ", "").replace(".", "").replace(",", ".").trim().parse().unwrap_or(0.0)))}
