@@ -176,7 +176,7 @@ fn App(cx: Scope) -> impl IntoView {
         </section>
         <footer class="footer-advise">
             <p class="footer-advise-text">
-                "2024 - Feito com ❤️ em Rust versão 1.5.0 "
+                "2025 - Feito com ❤️ e Rust versão 1.5.0 "
             </p>
         </footer>
 
