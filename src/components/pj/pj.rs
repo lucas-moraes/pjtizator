@@ -157,19 +157,28 @@ pub fn Pj(
     };
 
     let calc_irrf = move |salary_after_inss: f64| -> f64 {
-        let mut irrf = 0.0;
-        if salary_after_inss <= 2259.20 {
-            irrf = 0.0;
-        } else if salary_after_inss > 2259.20 && salary_after_inss <= 2826.65 {
-            irrf = salary_after_inss * 0.075 - 169.44;
+        // Tabela progressiva IRRF 2026
+        let mut imposto = 0.0;
+        if salary_after_inss <= 2428.80 {
+            imposto = 0.0;
+        } else if salary_after_inss > 2428.80 && salary_after_inss <= 2826.65 {
+            imposto = salary_after_inss * 0.075 - 182.16;
         } else if salary_after_inss > 2826.65 && salary_after_inss <= 3751.05 {
-            irrf = salary_after_inss * 0.15 - 381.44;
+            imposto = salary_after_inss * 0.15 - 394.16;
         } else if salary_after_inss > 3751.05 && salary_after_inss <= 4664.68 {
-            irrf = salary_after_inss * 0.225 - 662.77;
+            imposto = salary_after_inss * 0.225 - 675.49;
         } else if salary_after_inss > 4664.68 {
-            irrf = salary_after_inss * 0.275 - 896.00;
+            imposto = salary_after_inss * 0.275 - 908.73;
         }
-        irrf
+
+        // Redução adicional 2026
+        let reducao = if salary_after_inss > 7350.0 {
+            0.0
+        } else {
+            (978.62 - 0.133145 * salary_after_inss).max(0.0)
+        };
+
+        (imposto - reducao).max(0.0)
     };
 
     let pro_labore_percentage = move || -> ProLaborePercent {
