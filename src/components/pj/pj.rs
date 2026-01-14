@@ -23,7 +23,11 @@ fn format_currency(value: f64) -> String {
 }
 
 #[component]
-pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, deduct_pj: ReadSignal<String>,) -> impl IntoView {
+pub fn Pj(
+    invoice: ReadSignal<String>,
+    vale: ReadSignal<String>,
+    deduct_pj: ReadSignal<String>,
+) -> impl IntoView {
     let minimum_salary = 1412.00;
 
     let calc_anexo_III = move || -> CurrencyCorporate {
@@ -56,22 +60,22 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
         }
 
         if invoice_12_months <= 180000.0 {
-            effective_tax = (invoice_12_months * 0.06)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.06) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 180000.0 && invoice_12_months <= 360000.0 {
-            effective_tax = (invoice_12_months * 0.112-9360.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.112 - 9360.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 360000.0 && invoice_12_months <= 720000.0 {
-            effective_tax = (invoice_12_months * 0.135-17640.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.135 - 17640.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 720000.0 && invoice_12_months <= 1800000.0 {
-            effective_tax = (invoice_12_months * 0.16-35640.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.16 - 35640.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 1800000.0 && invoice_12_months <= 3600000.0 {
-            effective_tax = (invoice_12_months * 0.21-125640.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.21 - 125640.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 3600000.0 {
-            effective_tax = (invoice_12_months * 0.33-648000.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.33 - 648000.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         }
 
@@ -111,22 +115,22 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
         }
 
         if invoice_12_months <= 180000.0 {
-            effective_tax = (invoice_12_months * 0.155)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.155) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 180000.0 && invoice_12_months <= 360000.0 {
-            effective_tax = (invoice_12_months * 0.18-4500.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.18 - 4500.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 360000.0 && invoice_12_months <= 720000.0 {
-            effective_tax = (invoice_12_months * 0.195-9900.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.195 - 9900.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 720000.0 && invoice_12_months <= 1800000.0 {
-            effective_tax = (invoice_12_months * 0.205-17100.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.205 - 17100.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 1800000.0 && invoice_12_months <= 3600000.0 {
-            effective_tax = (invoice_12_months * 0.23-62100.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.23 - 62100.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 3600000.0 {
-            effective_tax = (invoice_12_months * 0.305-540000.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.305 - 540000.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         }
 
@@ -153,19 +157,28 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
     };
 
     let calc_irrf = move |salary_after_inss: f64| -> f64 {
-        let mut irrf = 0.0;
-        if salary_after_inss <= 2259.20 {
-            irrf = 0.0;
-        } else if salary_after_inss > 2259.20 && salary_after_inss <= 2826.65 {
-            irrf = salary_after_inss * 0.075 - 169.44;
+        // Tabela progressiva IRRF 2026
+        let mut imposto = 0.0;
+        if salary_after_inss <= 2428.80 {
+            imposto = 0.0;
+        } else if salary_after_inss > 2428.80 && salary_after_inss <= 2826.65 {
+            imposto = salary_after_inss * 0.075 - 182.16;
         } else if salary_after_inss > 2826.65 && salary_after_inss <= 3751.05 {
-            irrf = salary_after_inss * 0.15 - 381.44;
+            imposto = salary_after_inss * 0.15 - 394.16;
         } else if salary_after_inss > 3751.05 && salary_after_inss <= 4664.68 {
-            irrf = salary_after_inss * 0.225 - 662.77;
+            imposto = salary_after_inss * 0.225 - 675.49;
         } else if salary_after_inss > 4664.68 {
-            irrf = salary_after_inss * 0.275 - 896.00;
+            imposto = salary_after_inss * 0.275 - 908.73;
         }
-        irrf
+
+        // Redução adicional 2026
+        let reducao = if salary_after_inss > 7350.0 {
+            0.0
+        } else {
+            (978.62 - 0.133145 * salary_after_inss).max(0.0)
+        };
+
+        (imposto - reducao).max(0.0)
     };
 
     let pro_labore_percentage = move || -> ProLaborePercent {
@@ -209,7 +222,7 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
         }
     };
 
-    view! {cx,
+    view! {
         <div class="uk-margin-small  uk-padding-small  uk-card uk-card-default uk-card-body">
             <span class="uk-card-title uk-text-secondary">
                 "PJ - Simples nacional"
