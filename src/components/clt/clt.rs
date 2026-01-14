@@ -19,7 +19,6 @@ fn format_currency(value: f64) -> String {
 
 #[component]
 pub fn Clt(
-    cx: Scope,
     salary: ReadSignal<String>,
     vale: ReadSignal<String>,
     deduct_clt: ReadSignal<String>,
@@ -136,7 +135,7 @@ pub fn Clt(
         }
     };
 
-    view! {cx,
+    view! {
         <div class="uk-marging-small  uk-padding-small  uk-card uk-card-default uk-card-body">
             <span class="uk-card-title uk-text-secondary">
                 "CLT"

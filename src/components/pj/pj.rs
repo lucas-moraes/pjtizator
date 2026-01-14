@@ -23,7 +23,11 @@ fn format_currency(value: f64) -> String {
 }
 
 #[component]
-pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, deduct_pj: ReadSignal<String>,) -> impl IntoView {
+pub fn Pj(
+    invoice: ReadSignal<String>,
+    vale: ReadSignal<String>,
+    deduct_pj: ReadSignal<String>,
+) -> impl IntoView {
     let minimum_salary = 1412.00;
 
     let calc_anexo_III = move || -> CurrencyCorporate {
@@ -56,22 +60,22 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
         }
 
         if invoice_12_months <= 180000.0 {
-            effective_tax = (invoice_12_months * 0.06)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.06) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 180000.0 && invoice_12_months <= 360000.0 {
-            effective_tax = (invoice_12_months * 0.112-9360.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.112 - 9360.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 360000.0 && invoice_12_months <= 720000.0 {
-            effective_tax = (invoice_12_months * 0.135-17640.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.135 - 17640.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 720000.0 && invoice_12_months <= 1800000.0 {
-            effective_tax = (invoice_12_months * 0.16-35640.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.16 - 35640.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 1800000.0 && invoice_12_months <= 3600000.0 {
-            effective_tax = (invoice_12_months * 0.21-125640.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.21 - 125640.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 3600000.0 {
-            effective_tax = (invoice_12_months * 0.33-648000.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.33 - 648000.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         }
 
@@ -111,22 +115,22 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
         }
 
         if invoice_12_months <= 180000.0 {
-            effective_tax = (invoice_12_months * 0.155)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.155) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 180000.0 && invoice_12_months <= 360000.0 {
-            effective_tax = (invoice_12_months * 0.18-4500.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.18 - 4500.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 360000.0 && invoice_12_months <= 720000.0 {
-            effective_tax = (invoice_12_months * 0.195-9900.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.195 - 9900.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 720000.0 && invoice_12_months <= 1800000.0 {
-            effective_tax = (invoice_12_months * 0.205-17100.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.205 - 17100.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 1800000.0 && invoice_12_months <= 3600000.0 {
-            effective_tax = (invoice_12_months * 0.23-62100.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.23 - 62100.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         } else if invoice_12_months > 3600000.0 {
-            effective_tax = (invoice_12_months * 0.305-540000.0)/invoice_12_months;
+            effective_tax = (invoice_12_months * 0.305 - 540000.0) / invoice_12_months;
             tax_payable = billing_monthly * effective_tax;
         }
 
@@ -209,7 +213,7 @@ pub fn Pj(cx: Scope, invoice: ReadSignal<String>, vale: ReadSignal<String>, dedu
         }
     };
 
-    view! {cx,
+    view! {
         <div class="uk-margin-small  uk-padding-small  uk-card uk-card-default uk-card-body">
             <span class="uk-card-title uk-text-secondary">
                 "PJ - Simples nacional"

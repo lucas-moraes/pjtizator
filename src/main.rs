@@ -1,21 +1,19 @@
 mod components;
 
 use crate::components::clt::clt::Clt;
-use crate::components::clt::clt::CltProps;
-
 use crate::components::pj::pj::Pj;
-use crate::components::pj::pj::PjProps;
 
 use leptos::*;
+use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
 
 #[component]
-fn App(cx: Scope) -> impl IntoView {
-    let (salary, set_salary) = create_signal(cx, String::new());
-    let (deduct_clt, set_deduct_clt) = create_signal(cx, String::new());
-    let (deduct_pj, set_deduct_pj) = create_signal(cx, String::new());
-    let (vale, set_vale) = create_signal(cx, String::new());
-    let (plr, set_plr) = create_signal(cx, String::new());
+fn App() -> impl IntoView {
+    let (salary, set_salary) = create_signal(String::new());
+    let (deduct_clt, set_deduct_clt) = create_signal(String::new());
+    let (deduct_pj, set_deduct_pj) = create_signal(String::new());
+    let (vale, set_vale) = create_signal(String::new());
+    let (plr, set_plr) = create_signal(String::new());
 
     let format_currency = |value: &str| -> String {
         let numeric_value: String = value.chars().filter(|c| c.is_digit(10)).collect();
@@ -38,7 +36,7 @@ fn App(cx: Scope) -> impl IntoView {
         let input_value = input_element.value();
         let formatted_value = format_currency(&input_value);
         input_element.set_value(&formatted_value);
-        set_salary(formatted_value);
+        set_salary.set(formatted_value);
     };
 
     let handle_input_deductions_clt = move |ev: web_sys::Event| {
@@ -46,15 +44,15 @@ fn App(cx: Scope) -> impl IntoView {
         let input_value = input_element.value();
         let formatted_value = format_currency(&input_value);
         input_element.set_value(&formatted_value);
-        set_deduct_clt(formatted_value);
-    };    
+        set_deduct_clt.set(formatted_value);
+    };
 
     let handle_input_deductions_pj = move |ev: web_sys::Event| {
         let input_element = ev.target().unwrap().dyn_into::<HtmlInputElement>().unwrap();
         let input_value = input_element.value();
         let formatted_value = format_currency(&input_value);
         input_element.set_value(&formatted_value);
-        set_deduct_pj(formatted_value);
+        set_deduct_pj.set(formatted_value);
     };
 
     let handle_input_vale = move |ev: web_sys::Event| {
@@ -62,7 +60,7 @@ fn App(cx: Scope) -> impl IntoView {
         let input_value = input_element.value();
         let formatted_value = format_currency(&input_value);
         input_element.set_value(&formatted_value);
-        set_vale(formatted_value);
+        set_vale.set(formatted_value);
     };
 
     let handle_input_plr = move |ev: web_sys::Event| {
@@ -70,10 +68,10 @@ fn App(cx: Scope) -> impl IntoView {
         let input_value = input_element.value();
         let formatted_value = format_currency(&input_value);
         input_element.set_value(&formatted_value);
-        set_plr(formatted_value);
+        set_plr.set(formatted_value);
     };
 
-    view! {cx,
+    view! {
             <header class="header-advise">
               <p class="header-advise-text">
                   "Atenção: Os dados são meramente ilustrativos, não substituem a consultoria de um contador."
@@ -184,5 +182,5 @@ fn App(cx: Scope) -> impl IntoView {
 }
 
 fn main() {
-    mount_to_body(move |cx| view! {cx, <App/>});
+    mount_to_body(|| view! { <App/>});
 }
