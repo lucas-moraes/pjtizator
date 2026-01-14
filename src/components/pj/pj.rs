@@ -229,7 +229,7 @@ pub fn Pj(
             </span>
             <hr class="uk-divider-icon" />
                 <div class="uk-card">
-                    <p class="uk-text-bolder">"Anexo III - 2024"</p>
+                    <p class="uk-text-bolder">"Anexo III - 2026"</p>
                     <p class="uk-text-small uk-margin-remove">"(Fator R) Pro-labore > 28% do faturamento"</p>
                     <p class="uk-text-small uk-margin-remove">"Consideramos 30% de faturamento ou o salário mínimo"</p>
                     <hr class="uk-divider-small" />
@@ -265,7 +265,7 @@ pub fn Pj(
                 </div>
                 <hr class="uk-divider-icon" />
                 <div class="uk-card">
-                    <p class="uk-text-bolder">"Anexo V - 2024"</p>
+                    <p class="uk-text-bolder">"Anexo V - 2026"</p>
                     <p class="uk-text-small uk-margin-remove">"(Fator R) Pro-labore < 28% do faturamento"</p>
                     <p class="uk-text-small uk-margin-remove">"Consideramos o salário minimo"</p>
                     <hr class="uk-divider-small" />
